@@ -6,11 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "taha",
-    "uygun"
-  ],
-  "author": "",
+  "keywords": [],
+  "author": "taha uygun",
   "license": "ISC",
   "dependencies": {
     "google-protobuf": "^3.13.0"
