@@ -1,5 +1,5 @@
 const grpc = require('grpc');
-
+const greets = require('')
 
 function main() {
   var server = new grpc.Server();
