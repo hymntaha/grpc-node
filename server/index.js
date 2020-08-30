@@ -18,7 +18,7 @@ function greet(call, callback) {
 }
 function main() {
   var server = new grpc.Server();
-  server.addService(service.GreetServiceClient, {
+  server.addService(service.GreetServiceService, {
     greet: greet
   });
 
