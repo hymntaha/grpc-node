@@ -15,22 +15,26 @@ const greetProtoDefinition = protoLoader.loadSync(greetProtoPath,{
 
 const greetPackageDefinition = grpc.loadPackageDefinition(greetProtoDefinition).greet;
 
-function greet(call, callback){
-  var firstName = call.request.greeting.first_name;
-  var lastName = call.request.greeting.last_name;
+const client = new greetPackageDefinition.GreetService('localhost:50051', grpc.credentials.createInsecure());
 
-  callback(null, {result: 'Hello '+firstName+' '+lastName})
+function callGreetings(){
+  var request = {
+    greeting:{
+      first_name: "jerry",
+      last_name: 'tom'
+    }
+  }
+  client.greet(request, (error, response)=>{
+    if (!error) {
+      console.log('Greeting Response: ', response.result);
+    } else {
+      console.log(error)
+    }
+  })
 }
 
 function main() {
-  const server = new grpc.Server();
-  server.addService(greetPackageDefinition.GreetService.service, {
-    greet: greet
-  })
-
-  server.bind('127.0.0.1:50051', grpc.ServerCredentials.createInsecure());
-  server.start()
-  console.log('Server is running')
+  callGreetings()
 }
 
 main ()
