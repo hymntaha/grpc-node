@@ -46,6 +46,7 @@ function callGreetings(){
 
 function main() {
   callGreetings()
+  callSum()
 }
 
 
