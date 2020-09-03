@@ -15,6 +15,13 @@ const greetProtoDefinition = protoLoader.loadSync(greetProtoPath,{
 
 const greetPackageDefinition = grpc.loadPackageDefinition(greetProtoDefinition).greet;
 
+function greet(call, callback){
+  var firstName = call.request.greeting.first_name;
+  var lastName = call.request.greeting.last_name;
+
+  callback(null, {result: 'Hello '+firstName+' '+lastName})
+}
+
 function main() {
   const server = new grpc.Server();
   server.addService(greetPackageDefinition.GreetService.service, {
