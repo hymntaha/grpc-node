@@ -12,7 +12,23 @@ function sum(call, callback) {
   callback(null, sumResponse)
 }
 
+function greetManyTimes(call, callback) {
+  var firstName = call.request.getGreeting().getFirstName();
 
+  let count = 0, intervalID = setInterval(function () {
+
+
+  var greetManyTimesResponse = new greets.GreetManyTimesResponse()
+  greetManyTimesResponse.setResult(firstName);
+
+  // setup streaming
+  call.write(greetManyTimesResponse);
+    if (++count > 9) {
+      clearInterval(intervalID);
+      call.end();
+    }
+},1000)
+}
 /*
   Implements the greet RPC method.
  */
