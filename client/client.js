@@ -72,6 +72,7 @@ function callGreetManyTimes() {
 
 
 function main() {
+  callGreetManyTimes()
   callGreetings()
   callSum()
 }
