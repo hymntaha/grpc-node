@@ -48,11 +48,11 @@ function main() {
   // server.addService(service.GreetServiceService, {
   //   greet: greet
   // });
-
-  server.addService(calcService.CalculatorServiceService, {
-    sum: sum
-  });
-
+  //
+  // server.addService(calcService.CalculatorServiceService, {
+  //   sum: sum
+  // });
+server.addService(service.GreetServiceClient, {greet:greet,greetManyTimes: greetManyTimes})
   server.bind("127.0.0.1:50051", grpc.ServerCredentials.createInsecure())
   server.start();
 

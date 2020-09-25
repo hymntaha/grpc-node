@@ -43,6 +43,33 @@ function callGreetings(){
   })
 }
 
+function callGreetManyTimes() {
+  var client = new service.GreetServiceClient(
+    'localhost:50051',
+    grpc.credentials.createInsecure()
+  );
+  var request = new greets.GreetManyTimesRequest();
+
+  var greeting = new greets.Greeting()
+  greeting.setFirstName('Taha');
+  greeting.setLastName('Dichone');
+
+  var call = client.greetManyTimes(request, () => {});
+
+  call.on('data', (response)=>{
+    console.log('Client streaming response: ', response.getResult());
+  })
+  call.on('status',(status)=>{
+    console.log(status)
+  })
+  call.on('error', (error)=>{
+    console.error(error)
+  })
+    call.on('end',()=>{
+      console.log('Streaming ended');
+    })
+}
+
 
 function main() {
   callGreetings()
