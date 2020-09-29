@@ -6,9 +6,21 @@ service GreetService{
   // unary api
   rpc Greet (GreetRequest) returns (GreetResponse) {};
 
-  //Streaming API
+  //Server streaming API
   rpc GreetManyTimes (GreetManyTimesRequest) returns (stream GreetManyTimesResponse) {};
+
+  // Client Streaming
+  rpc LongGreet(stream LongGreetRequest) returns (LongGreetResponse){};
 }
+
+message LongGreetRequest{
+  Greeting greet = 1;
+}
+message LongGreetResponse{
+  string result = 1;
+}
+
+
 message GreetManyTimesRequest{
   Greeting greeting = 1;
 }
