@@ -54,6 +54,7 @@ function callGreetManyTimes() {
   greeting.setFirstName('Taha');
   greeting.setLastName('Dichone');
 
+  request.setGreeting(greeting)
   var call = client.greetManyTimes(request, () => {});
 
   call.on('data', (response)=>{
@@ -70,11 +71,41 @@ function callGreetManyTimes() {
     })
 }
 
+function callPrimeNumberDecomposition() {
+  var client = new calcService.CalculatorServiceClient(
+    "localhost:50051",
+    grpc.credentials.createInsecure()
+  )
+  var reqeust = new calc.PrimeNumberDecompositionRequest()
+  var number = 567890
+  request.setNumber(number);
 
+  var call = client.primeNumberDecomposition(request, () =>{
+
+  })
+
+  call.on('data', response=>{
+    console.log('Prime Factors found: ', response.getPrimeFactor())
+  })
+
+  call.on('error', error=>{
+    console.log(error)
+
+  })
+
+  call.on('status', status=>{
+    console.log(status)
+
+  })
+  call.on('end', ()=>{
+    console.log('Streaming Ended!')
+  })
+}
 function main() {
-  callGreetManyTimes()
-  callGreetings()
-  callSum()
+  // callGreetManyTimes()
+  // callGreetings()
+  // callSum()
+  callPrimeNumberDecomposition()
 }
 
 

@@ -1,3 +1,8 @@
+/*
+* Plugin exec is:
+*  protoc -I=. ./protos/calculator.proto --js_out=import_style=commonjs,binary:./server --grpc_out=./server --plugin=protoc-gen-grpc=`which grpc_tools_node_protoc_plugin`
+*
+* */
 const grpc = require('grpc');
 const greets = require('../server/protos/greet_pb');
 const service = require('../server/protos/greet_grpc_pb');
@@ -29,6 +34,27 @@ function greetManyTimes(call, callback) {
     }
 },1000)
 }
+
+// Prime Factor
+function primeNumberDecomposition(call, callback) {
+  var number = call.request.getNumber();
+  var divisor = 2;
+  console.log('Recevied number', number);
+  while (number > 1) {
+    if (number % divisor === 0) {
+      var primeNumberDecompositionResponse = new calc.PrimeNumberDecompositionResponse();
+
+      primeNumberDecompositionResponse.setPrimeFactor(divisor);
+      number = number / divisor;
+
+      call.write(primeNumberDecompositionResponse)
+    } else {
+      divisor++;
+      console.log('Divisor has increased to ', divisor);
+    }
+  }
+  call.end();
+}
 /*
   Implements the greet RPC method.
  */
@@ -52,7 +78,7 @@ function main() {
   // server.addService(calcService.CalculatorServiceService, {
   //   sum: sum
   // });
-server.addService(service.GreetServiceClient, {greet:greet,greetManyTimes: greetManyTimes})
+server.addService(service.GreetServiceClient, {sum: sum, primeNumberDecomposition: primeNumberDecomposition})
   server.bind("127.0.0.1:50051", grpc.ServerCredentials.createInsecure())
   server.start();
 
