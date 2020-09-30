@@ -71,6 +71,38 @@ function callGreetManyTimes() {
     })
 }
 
+function callLongGreeting() {
+  var client = new calcService.GreetServiceClient(
+    "localhost:50051",
+    grpc.credentials.createInsecure()
+  )
+  var reqeust = new greet.LongGreetRequest();
+  var call = client.longGreet(request, (error, response)=>{
+    if (!error) {
+      console.log('Server response: '. response.getResult())
+    } else {
+      console.log(error)
+    }
+  })
+
+  let count = 0, intervalId = setInterval(function () {
+    console.log('Sending message ' + count)
+    var request = new greets.LongGreetRequest();
+    var greeting = new greets.Greeting()
+    greeting.setFirstName('Taha');
+    greeting.setLastName('Uygun');
+
+    request.setGreet(greeting);
+
+    call.write(request)
+
+    if (++count > 3) {
+      clearInterval(intervalId);
+      call.end()
+    }
+  }, 1000);
+}
+
 function callPrimeNumberDecomposition() {
   var client = new calcService.CalculatorServiceClient(
     "localhost:50051",
