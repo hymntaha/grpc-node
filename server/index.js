@@ -69,6 +69,25 @@ function greet(call, callback) {
 
 }
 
+
+function longGreet(call, callback) {
+  call.on('data', request=>{
+    var fullName = request.getGreet().getFirstName() + ' ' + request.getGreet().getLastName()
+
+    console.log('Hello ' + fullName);
+  })
+
+  call.on('error', error=>{
+    console.error(error)
+  })
+
+  call.on('end', () =>{
+    var response = new greets.LongGreetResponse()
+    response.setResult('Long Greet Client Streaming....');
+    callback(null, response)
+  })
+}
+
 function main() {
   var server = new grpc.Server();
   // server.addService(service.GreetServiceService, {
@@ -78,7 +97,7 @@ function main() {
   // server.addService(calcService.CalculatorServiceService, {
   //   sum: sum
   // });
-server.addService(service.GreetServiceClient, {sum: sum, primeNumberDecomposition: primeNumberDecomposition})
+server.addService(service.GreetServiceClient, {sum: sum, primeNumberDecomposition: primeNumberDecomposition, longGreet:longGreet})
   server.bind("127.0.0.1:50051", grpc.ServerCredentials.createInsecure())
   server.start();
 
