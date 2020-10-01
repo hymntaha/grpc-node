@@ -8,6 +8,15 @@ service CalculatorService{
 
   // Streaming API
   rpc PrimeNumberDecomposition (PrimeNumberDecompositionRequest) returns (stream PrimeNumberDecompositionResponse) {};
+
+  rpc ComputeAverage(ComputeAverageRequest) returns (ComputeAverageResponse) {};
+}
+message ComputeAverageResponse{
+  double average = 1;
+}
+
+message ComputeAverageRequest{
+  int32 number = 1;
 }
 
 message PrimeNumberDecompositionRequest{

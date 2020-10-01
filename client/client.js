@@ -133,11 +133,47 @@ function callPrimeNumberDecomposition() {
     console.log('Streaming Ended!')
   })
 }
+
+function callComputeAverage() {
+  var client = new calcService.CalculatorServiceClient(
+    "localhost:50051",
+    grpc.credentials.createInsecure()
+  )
+
+  var request = new calc.ComputeAverageRequest()
+  var call = client.computeAverage(request, (error, response) => {
+    if (!error) {
+      console.log('Received a response from the server - Average: ' + response.getAverage())
+    } else {
+      console.error(error)
+    }
+  })
+
+  var request = new calc.ComputeAverageRequest();
+  request.setNumber(1);
+
+  var requestTwo = new calc.ComputeAverageRequest();
+  requestTwo.setNumber(2);
+
+  var requestThree = new calc.ComputeAverageRequest();
+  requestThree.setNumber(3);
+
+  var requestFour = new calc.ComputeAverageRequest();
+  requestFour.setNumber(4);
+
+  call.write(request)
+  call.write(requestTwo)
+  call.write(requestThree)
+  call.write(requestFour)
+
+  call.end()
+}
 function main() {
   // callGreetManyTimes()
   // callGreetings()
   // callSum()
   callPrimeNumberDecomposition()
+  callComputeAverage()
 }
 
 
