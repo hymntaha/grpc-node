@@ -104,34 +104,34 @@ function callLongGreeting() {
 }
 
 function callPrimeNumberDecomposition() {
-  var client = new calcService.CalculatorServiceClient(
-    "localhost:50051",
-    grpc.credentials.createInsecure()
-  )
-  var reqeust = new calc.PrimeNumberDecompositionRequest()
-  var number = 567890
-  request.setNumber(number);
-
-  var call = client.primeNumberDecomposition(request, () =>{
-
-  })
-
-  call.on('data', response=>{
-    console.log('Prime Factors found: ', response.getPrimeFactor())
-  })
-
-  call.on('error', error=>{
-    console.log(error)
-
-  })
-
-  call.on('status', status=>{
-    console.log(status)
-
-  })
-  call.on('end', ()=>{
-    console.log('Streaming Ended!')
-  })
+  // var client = new calcService.CalculatorServiceClient(
+  //   "localhost:50051",
+  //   grpc.credentials.createInsecure()
+  // )
+  // var reqeust = new calc.PrimeNumberDecompositionRequest()
+  // var number = 567890
+  // reqeust.setNumber(number);
+  //
+  // var call = client.primeNumberDecomposition(request, () =>{
+  //
+  // })
+  //
+  // call.on('data', response=>{
+  //   console.log('Prime Factors found: ', response.getPrimeFactor())
+  // })
+  //
+  // call.on('error', error=>{
+  //   console.log(error)
+  //
+  // })
+  //
+  // call.on('status', status=>{
+  //   console.log(status)
+  //
+  // })
+  // call.on('end', ()=>{
+  //   console.log('Streaming Ended!')
+  // })
 }
 
 function callComputeAverage() {
@@ -149,17 +149,26 @@ function callComputeAverage() {
     }
   })
 
-  var request = new calc.ComputeAverageRequest();
-  request.setNumber(1);
+  var request = new calc.ComputeAverageRequest()
 
-  var requestTwo = new calc.ComputeAverageRequest();
-  requestTwo.setNumber(2);
+  for (let i = 0; i < 10000; i++) {
+    var request = new calc.ComputeAverageRequest();
+    request.setNumber(i);
+    call.write(request);
+  }
 
-  var requestThree = new calc.ComputeAverageRequest();
-  requestThree.setNumber(3);
-
-  var requestFour = new calc.ComputeAverageRequest();
-  requestFour.setNumber(4);
+  call.end()
+  // var request = new calc.ComputeAverageRequest();
+  // request.setNumber(1);
+  //
+  // var requestTwo = new calc.ComputeAverageRequest();
+  // requestTwo.setNumber(2);
+  //
+  // var requestThree = new calc.ComputeAverageRequest();
+  // requestThree.setNumber(3);
+  //
+  // var requestFour = new calc.ComputeAverageRequest();
+  // requestFour.setNumber(4);
 
   call.write(request)
   call.write(requestTwo)
