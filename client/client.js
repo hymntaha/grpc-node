@@ -138,26 +138,30 @@ function callComputeAverage() {
   var client = new calcService.CalculatorServiceClient(
     "localhost:50051",
     grpc.credentials.createInsecure()
-  )
+  );
 
-  var request = new calc.ComputeAverageRequest()
+  var request = new calc.ComputeAverageRequest();
   var call = client.computeAverage(request, (error, response) => {
     if (!error) {
-      console.log('Received a response from the server - Average: ' + response.getAverage())
+      console.log(
+        "Received a response from the server - Average: " +
+        response.getAverage()
+      );
     } else {
-      console.error(error)
+      console.error(error);
     }
-  })
+  });
 
-  var request = new calc.ComputeAverageRequest()
+  var request = new calc.ComputeAverageRequest();
+  // request.setNumber(1)
 
-  for (let i = 0; i < 10000; i++) {
+  for (var i = 0; i < 1000000; i++) {
     var request = new calc.ComputeAverageRequest();
     request.setNumber(i);
     call.write(request);
   }
 
-  call.end()
+  call.end();
   // var request = new calc.ComputeAverageRequest();
   // request.setNumber(1);
   //

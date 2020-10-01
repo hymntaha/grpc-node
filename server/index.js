@@ -89,6 +89,7 @@ function longGreet(call, callback) {
 }
 
 function computeAverage(call, callback){
+  console.log('hello')
   var sum = 0;
   var count = 0;
 
